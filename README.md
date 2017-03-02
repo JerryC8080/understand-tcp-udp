@@ -11,3 +11,9 @@ Gitbook：[理解 TCP  和 UDP](https://jerryc8080.gitbooks.io/understand-tcp-an
 * [（五）TCP 可靠性交付的实现](chapter5.md)
 * [（六）TCP 网络编程接口](chapter6.md)
 * [（六）UDP](chapter7.md)
+
+## 许可
+
+[MIT License](LICENSE)
+
+Copyright (c) 2017 JerryC
