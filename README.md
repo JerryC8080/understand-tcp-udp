@@ -1,6 +1,10 @@
 # 理解 TCP 和 UDP
 
-Gitbook：[理解 TCP  和 UDP](https://jerryc8080.gitbooks.io/understand-tcp-and-udp/)
+Gitbook：[理解 TCP  和 UDP](https://jerryc8080.gitbooks.io/understand-tcp-and-udp/)    
+
+Repo：[Understand-TCP-UDP](https://github.com/JerryC8080/understand-tcp-udp)（欢迎 Star）    
+
+Author： [JerryC](https://github.com/JerryC8080)    
 
 ## 目录
 
