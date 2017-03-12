@@ -69,6 +69,12 @@ TCP 通过测量来获得连接当前 RTT 的一个估计值，并以该 RTT 估
 由算法可以知道 RTO 的值会根据每次测量的 RTT 值变化而变化，基本要点是 TCP 监视每个连接的性能，由每一个 TCP 的连接情况推算出合适的 RTO 值，根据不同的网络情况，自动修改 RTO 值，以适应负责的网络变化。
 
 # 拥塞控制
+## 慢启动（Slow Start） 与 拥塞避免（Congestion Avoidance）
+- [ ] TODO
+
+## 快速重传（Fast Retransmit） 与 快速恢复（Fast Recovery）
+- [ ] TODO
+
 # 滑动窗口 Sliding Window
 滑动窗口协议比较复杂，也是 TCP 协议的精髓所在。    
 
