@@ -68,7 +68,7 @@ int socket(int domain, int type, int protocol);
 
 ### 参数说明
 **domain**: 
-协议域，决定了 socket 的地质类型，在通信中必须采用对应的地址。
+协议域，决定了 socket 的地址类型，在通信中必须采用对应的地址。
 常用的协议族有：`AF_INET`（ipv4地址与端口号的组合）、`AF_INET6`（ipv6地址与端口号的组合）、`AF_LOCAL`（绝对路径名作为地址）。
 该值的常量定义在 `sys/socket.h` 文件中。
 
