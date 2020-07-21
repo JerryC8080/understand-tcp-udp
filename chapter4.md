@@ -3,7 +3,7 @@
 无论客户端还是服务器，在双方 TCP 通讯的过程中，都会有着一个「状态」的概念，状态会随着 TCP 通讯的不同阶段而变化。
 
 ### TCP 状态流转图
-![TCP 状态流转图.png](http://om6ayrafu.bkt.clouddn.com/post/understand-tcp-udp/DB900F916ECD267746706FEA8DF682CD.png)
+![TCP 状态流转图.png](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/DB900F916ECD267746706FEA8DF682CD.png)
 
 ### 各种状态表示的意思
 

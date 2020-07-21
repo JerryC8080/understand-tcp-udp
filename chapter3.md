@@ -2,7 +2,7 @@
 
 TCP 的整个交流过程可以总结为：先建立连接，然后传输数据，最后释放链接。    
 
-![三次握手和四次挥手.png](http://om6ayrafu.bkt.clouddn.com/post/understand-tcp-udp/08EAF7F3E7FFCEF3E781385BF62BA2BC.png)
+![三次握手和四次挥手.png](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/08EAF7F3E7FFCEF3E781385BF62BA2BC.png)
 
 ## 三次握手，建立连接
 TCP 连接建立要解决的首要问题就是：**要使每一方能够确知对方的存在。**    

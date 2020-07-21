@@ -13,13 +13,13 @@ TCP 是面向字节流的，但传送的数据单元却是报文段。
 
 TCP 报文 (Segment)，包括首部和数据部分。    
 
-![报文结构.png](http://om6ayrafu.bkt.clouddn.com/post/understand-tcp-udp/3A60080FBC8767DB575C2D2919097613.png)
+![报文结构.png](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/3A60080FBC8767DB575C2D2919097613.png)
 
 而 TCP 的全部功能都体现在它首部中各字段的作用，只有弄清 TCP 首部各字段的作用才能掌握 TCP 的工作原理。    
 TCP 报文段首部的前20个字节是固定的，后面有 4N 字节是根据需要而增加的。    
 下图是把 TCP 报文中的首部放大来看。    
 
-![报文首部结构.png](http://om6ayrafu.bkt.clouddn.com/post/understand-tcp-udp/CFC6314E4B2FD039C450821D946E93E2.png)
+![报文首部结构.png](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/CFC6314E4B2FD039C450821D946E93E2.png)
 
 TCP 的首部包括以下内容：    
 

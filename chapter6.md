@@ -33,7 +33,7 @@ socket 其实就是该模式的一个实现，socket 即是一种特殊的文件
 - close()
 
 # Socket 的交互流程
-![socket 交互过程.png](http://om6ayrafu.bkt.clouddn.com/post/understand-tcp-udp/46872611EB6C0874FE9E4C290E8F3FE9.png)
+![socket 交互过程.png](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/46872611EB6C0874FE9E4C290E8F3FE9.png)
 
 图中展示了 TCP 协议的 socket 交互流程，描述如下：
 1. 服务器根据地址类型、socket 类型、以及协议来创建 socket。

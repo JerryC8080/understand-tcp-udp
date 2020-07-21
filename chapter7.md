@@ -39,7 +39,7 @@ UDP 全称 User Datagram Protocol, 与 TCP 同是在网络模型中的传输层�
 UDP 数据报分为数据字段和首部字段。    
 首部字段只有 8 个字节，由四个字段组成，每个字段的长度是 2 个字节。    
 
-![UDP  数据报结构.png](http://om6ayrafu.bkt.clouddn.com/post/understand-tcp-udp/6FCC9F4EDE80F784BD11ED9FA76FA375.png)
+![UDP  数据报结构.png](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/6FCC9F4EDE80F784BD11ED9FA76FA375.png)
 
 **首部各字段意义**：
 
@@ -56,7 +56,7 @@ UDP 数据报首部中检验和的计算方法比较特殊。
 伪首部并不是数据报真正的首部，是为了计算校验和而临时添加在数据报前面的，在真正传输的时候并不会把伪首部一并发送。    
 
 
-![UDP 数据报结构-伪首部.png](http://om6ayrafu.bkt.clouddn.com/post/understand-tcp-udp/3D9C291187835C3571A111952201B4FF.png)
+![UDP 数据报结构-伪首部.png](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/3D9C291187835C3571A111952201B4FF.png)
 
 **伪首部个字段意义**：
 
@@ -98,7 +98,7 @@ UDP 数据报首部中检验和的计算方法比较特殊。
 **一个校验和例子**
 假设一个 UDP 数据报：
 
-![UDP 校验和.png](http://om6ayrafu.bkt.clouddn.com/post/understand-tcp-udp/5DADDF7480F81837145468E2ADA6839F.png)
+![UDP 校验和.png](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/5DADDF7480F81837145468E2ADA6839F.png)
 
 各字段以二进制表示：
 

@@ -89,7 +89,7 @@ TCP 头里有一个字段叫 Window，叫 Advertised-Window，这个字段是接
 
 下图是发送窗口的示意图：
 
-![tcps-send-wwindows.png](http://om6ayrafu.bkt.clouddn.com/post/understand-tcp-udp/FCA43D210DF50C93E428DFD04FBBBF32.png)
+![tcps-send-wwindows.png](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/FCA43D210DF50C93E428DFD04FBBBF32.png)
 
 对于发送窗口，在缓存内的数据有四种状态：
 
@@ -101,7 +101,7 @@ TCP 头里有一个字段叫 Window，叫 Advertised-Window，这个字段是接
 如果下一刻，收到了接收方对于 32-36 字节序的数据包的 ACK 确认，那么发送方的窗口就会发生「滑动」。    
 并且发送下一个 46-51 字节序的数据包。    
 
-![tcps-send-wslide.png](http://om6ayrafu.bkt.clouddn.com/post/understand-tcp-udp/4C22A2B58DB2F0B885A0DC50057D2768.png)
+![tcps-send-wslide.png](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/4C22A2B58DB2F0B885A0DC50057D2768.png)
 
 滑动窗口的概念，描述了 TCP 的数据是怎么发送，以及怎么接收的。    
 TCP 的滑动窗口是动态的，我们可以想象成小学常见的一个数学题，一个水池，体积 V，每小时进水量 V1, 出水量 V2。    
@@ -113,7 +113,7 @@ TCP 的滑动窗口是动态的，我们可以想象成小学常见的一个数�
 
 下图是接收窗口的示意图（找不到图，唯有自己画了）：    
 
-![tcps-receive-wwindows.png](http://om6ayrafu.bkt.clouddn.com/post/understand-tcp-udp/F4B7AEDE41EE179676E79DEF2601D4A4.png)
+![tcps-receive-wwindows.png](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/F4B7AEDE41EE179676E79DEF2601D4A4.png)
 
 相对于发送窗口，接受窗口在缓存内的数据只有三种状态：
 
@@ -123,14 +123,14 @@ TCP 的滑动窗口是动态的，我们可以想象成小学常见的一个数�
 
 下一刻接收到来自发送端的 32-36 数据包，然后回送 ACK 确认报，并且移动接收窗口。    
 
-![tcps-receive-wslide.png](http://om6ayrafu.bkt.clouddn.com/post/understand-tcp-udp/95A36446FAD21CC3DD086FA683942FFA.png)
+![tcps-receive-wslide.png](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/95A36446FAD21CC3DD086FA683942FFA.png)
 
 另外接收端相对于发送端还有不同的一点，只有前面所有的段都确认的情况下才会移动左边界，    
 在前面还有字节未接收但收到后面字节的情况下，窗口不会移动，并不对后续字节确认，以此确保对端会对这些数据重传。    
 假如 32-36 字节不是一个报文段的，而是每个字节一个报文段的话，那么就会分成了 5 个报文段。    
 在实际的网络环境中，不能确保是按序收到的，其中会有一些早达到，一些迟到达。    
 
-![tcps-receive-disorder.png](http://om6ayrafu.bkt.clouddn.com/post/understand-tcp-udp/686E3FC14C2DEF657C61ECBC16C9C954.png)
+![tcps-receive-disorder.png](https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/686E3FC14C2DEF657C61ECBC16C9C954.png)
 
 如图中的 34、35 字节序，先收到了，接收窗口也不会移动。    
 因为有可能 32、33 字节序会出现丢包或者超时，这时就需要发送端重发报文段了。    
