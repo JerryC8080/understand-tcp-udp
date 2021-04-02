@@ -1,0 +1,339 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>（四）TCP 状态流转 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="chapter5.html" />
+    
+    
+    <link rel="prev" href="chapter3.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="chapter1.html">
+            
+                <a href="chapter1.html">
+            
+                    
+                    （一）TCP 端口
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="chapter2.html">
+            
+                <a href="chapter2.html">
+            
+                    
+                    （二）TCP 报文结构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="chapter3.html">
+            
+                <a href="chapter3.html">
+            
+                    
+                    （三）TCP 连接的建立和释放
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5" data-path="chapter4.html">
+            
+                <a href="chapter4.html">
+            
+                    
+                    （四）TCP 状态流转
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="chapter5.html">
+            
+                <a href="chapter5.html">
+            
+                    
+                    （五）TCP 可靠性交付的实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="chapter6.html">
+            
+                <a href="chapter6.html">
+            
+                    
+                    （六）TCP 网络编程接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="chapter7.html">
+            
+                <a href="chapter7.html">
+            
+                    
+                    （七）UDP
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >（四）TCP 状态流转</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="&#x72B6;&#x6001;&#x6D41;&#x8F6C;">&#x72B6;&#x6001;&#x6D41;&#x8F6C;</h2>
+<p>&#x65E0;&#x8BBA;&#x5BA2;&#x6237;&#x7AEF;&#x8FD8;&#x662F;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x5728;&#x53CC;&#x65B9; TCP &#x901A;&#x8BAF;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x90FD;&#x4F1A;&#x6709;&#x7740;&#x4E00;&#x4E2A;&#x300C;&#x72B6;&#x6001;&#x300D;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x72B6;&#x6001;&#x4F1A;&#x968F;&#x7740; TCP &#x901A;&#x8BAF;&#x7684;&#x4E0D;&#x540C;&#x9636;&#x6BB5;&#x800C;&#x53D8;&#x5316;&#x3002;</p>
+<h3 id="tcp-&#x72B6;&#x6001;&#x6D41;&#x8F6C;&#x56FE;">TCP &#x72B6;&#x6001;&#x6D41;&#x8F6C;&#x56FE;</h3>
+<p><img src="https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/DB900F916ECD267746706FEA8DF682CD.png" alt="TCP &#x72B6;&#x6001;&#x6D41;&#x8F6C;&#x56FE;.png"></p>
+<h3 id="&#x5404;&#x79CD;&#x72B6;&#x6001;&#x8868;&#x793A;&#x7684;&#x610F;&#x601D;">&#x5404;&#x79CD;&#x72B6;&#x6001;&#x8868;&#x793A;&#x7684;&#x610F;&#x601D;</h3>
+<p><strong>CLOSED</strong>&#xFF1A;&#x8868;&#x793A;&#x521D;&#x59CB;&#x72B6;&#x6001;</p>
+<p><strong>LISTEN</strong>&#xFF1A;&#x8868;&#x793A;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x7684;&#x67D0;&#x4E2A; socket &#x5904;&#x4E8E;&#x76D1;&#x542C;&#x72B6;&#x6001;&#xFF0C;&#x53EF;&#x4EE5;&#x63A5;&#x53D7;&#x8FDE;&#x63A5;</p>
+<p><strong>SYN_SENT</strong>&#xFF1A;&#x5728;&#x670D;&#x52A1;&#x7AEF;&#x76D1;&#x542C;&#x540E;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF; socket &#x6267;&#x884C; CONNECT &#x8FDE;&#x63A5;&#x65F6;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x53D1;&#x9001; SYN &#x62A5;&#x6587;&#xFF0C;&#x6B64;&#x65F6;&#x5BA2;&#x6237;&#x7AEF;&#x5C31;&#x8FDB;&#x5165; SYN_SENT &#x72B6;&#x6001;&#xFF0C;&#x7B49;&#x5F85;&#x670D;&#x52A1;&#x7AEF;&#x786E;&#x8BA4;&#x3002;</p>
+<p><strong>SYN_RCVD</strong>&#xFF1A;&#x8868;&#x793A;&#x670D;&#x52A1;&#x7AEF;&#x63A5;&#x6536;&#x5230;&#x4E86; SYN &#x62A5;&#x6587;&#x3002;</p>
+<p><strong>ESTABLISHED</strong>&#xFF1A;&#x8868;&#x793A;&#x8FDE;&#x63A5;&#x5DF2;&#x7ECF;&#x5EFA;&#x7ACB;&#x4E86;&#x3002;</p>
+<p><strong>FIN_WAIT_1</strong>&#xFF1A;&#x5176;&#x4E2D;&#x4E00;&#x65B9;&#x8BF7;&#x6C42;&#x7EC8;&#x6B62;&#x8FDE;&#x63A5;&#xFF0C;&#x7B49;&#x5F85;&#x5BF9;&#x65B9;&#x7684; FIN &#x62A5;&#x6587;&#x3002;</p>
+<p><strong>FIN_WAIT_2</strong>&#xFF1A;&#x5728; <strong>FIN_WAIT_2</strong> &#x4E4B;&#x540E;&#xFF0C; &#x5F53;&#x5BF9;&#x65B9;&#x56DE;&#x5E94; ACK &#x62A5;&#x6587;&#x4E4B;&#x540E;&#xFF0C;&#x8FDB;&#x5165;&#x8BE5;&#x72B6;&#x6001;&#x3002;</p>
+<p><strong>TIME_WAIT</strong>&#xFF1A;&#x8868;&#x793A;&#x6536;&#x5230;&#x4E86;&#x5BF9;&#x65B9;&#x7684; FIN &#x62A5;&#x6587;&#xFF0C;&#x5E76;&#x53D1;&#x9001;&#x51FA;&#x4E86; ACK &#x62A5;&#x6587;&#xFF0C;&#x5C31;&#x7B49; 2MSL &#x4E4B;&#x540E;&#x5373;&#x53EF;&#x56DE;&#x5230; CLOSED &#x72B6;&#x6001;&#x3002;</p>
+<p><strong>CLOSING</strong>&#xFF1A;&#x4E00;&#x79CD;&#x7F55;&#x89C1;&#x72B6;&#x6001;&#xFF0C;&#x53D1;&#x751F;&#x5728;&#x53D1;&#x9001; FIN &#x62A5;&#x6587;&#x4E4B;&#x540E;&#xFF0C;&#x672C;&#x5E94;&#x662F;&#x5148;&#x6536;&#x5230; ACK &#x62A5;&#x6587;&#xFF0C;&#x5374;&#x5148;&#x6536;&#x5230;&#x5BF9;&#x65B9;&#x7684; FIN &#x62A5;&#x6587;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x4ECE; FIN_WAIT_1 &#x7684;&#x72B6;&#x6001;&#x8FDB;&#x5165; CLOSING &#x72B6;&#x6001;&#x3002;</p>
+<p><strong>CLOSE_WAIT</strong>&#xFF1A;&#x8868;&#x793A;&#x7B49;&#x5F85;&#x5173;&#x95ED;&#xFF0C;&#x5728; ESTABLISHED &#x8FC7;&#x6E21;&#x5230; LAST_ACK &#x7684;&#x4E00;&#x4E2A;&#x8FC7;&#x6E21;&#x9636;&#x6BB5;&#xFF0C;&#x8BE5;&#x9636;&#x6BB5;&#x9700;&#x8981;&#x8003;&#x8651;&#x662F;&#x5426;&#x8FD8;&#x6709;&#x6570;&#x636E;&#x53D1;&#x9001;&#x7ED9;&#x5BF9;&#x65B9;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x5173;&#x95ED;&#x8FDE;&#x63A5;&#xFF0C;&#x53D1;&#x9001; FIN &#x62A5;&#x6587;&#xFF0C;&#x7136;&#x540E;&#x8FDB;&#x5165; LAST_ACK &#x72B6;&#x6001;&#x3002;</p>
+<p><strong>LAST_ACK</strong>&#xFF1A;&#x88AB;&#x52A8;&#x5173;&#x95ED;&#x4E00;&#x65B9;&#x53D1;&#x9001; FIN &#x62A5;&#x6587;&#x4E4B;&#x540E;&#xFF0C;&#x6700;&#x540E;&#x7B49;&#x5F85;&#x5BF9;&#x65B9;&#x7684; ACK &#x62A5;&#x6587;&#x6240;&#x5904;&#x7684;&#x72B6;&#x6001;&#x3002;</p>
+<p><strong>CLOSED</strong>&#xFF1A;&#x5F53;&#x6536;&#x5230; ACK &#x4FDD;&#x6E29;&#x540E;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x8FDB;&#x5165; CLOSED &#x72B6;&#x6001;&#x4E86;&#x3002;</p>
+<h1 id="&#x53C2;&#x8003;">&#x53C2;&#x8003;</h1>
+<p><a href="https://book.douban.com/subject/26850616/" target="_blank">&#x300A;&#x540E;&#x53F0;&#x5F00;&#x53D1; &#x6838;&#x5FC3;&#x6280;&#x672F;&#x4E0E;&#x5E94;&#x7528;&#x5B9E;&#x8DF5;&#x300B;</a><br><a href="https://book.douban.com/subject/2970300/" target="_blank">&#x300A;&#x8BA1;&#x7B97;&#x673A;&#x7F51;&#x7EDC;&#x300B;</a></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="chapter3.html" class="navigation navigation-prev " aria-label="Previous page: （三）TCP 连接的建立和释放">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="chapter5.html" class="navigation navigation-next " aria-label="Next page: （五）TCP 可靠性交付的实现">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"（四）TCP 状态流转","level":"1.5","depth":1,"next":{"title":"（五）TCP 可靠性交付的实现","level":"1.6","depth":1,"path":"chapter5.md","ref":"chapter5.md","articles":[]},"previous":{"title":"（三）TCP 连接的建立和释放","level":"1.4","depth":1,"path":"chapter3.md","ref":"chapter3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"chapter4.md","mtime":"2021-04-02T15:57:50.921Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-02T16:01:33.607Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

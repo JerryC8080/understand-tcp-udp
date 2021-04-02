@@ -1,0 +1,379 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>（二）TCP 报文结构 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="chapter3.html" />
+    
+    
+    <link rel="prev" href="chapter1.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="chapter1.html">
+            
+                <a href="chapter1.html">
+            
+                    
+                    （一）TCP 端口
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3" data-path="chapter2.html">
+            
+                <a href="chapter2.html">
+            
+                    
+                    （二）TCP 报文结构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="chapter3.html">
+            
+                <a href="chapter3.html">
+            
+                    
+                    （三）TCP 连接的建立和释放
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="chapter4.html">
+            
+                <a href="chapter4.html">
+            
+                    
+                    （四）TCP 状态流转
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="chapter5.html">
+            
+                <a href="chapter5.html">
+            
+                    
+                    （五）TCP 可靠性交付的实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="chapter6.html">
+            
+                <a href="chapter6.html">
+            
+                    
+                    （六）TCP 网络编程接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="chapter7.html">
+            
+                <a href="chapter7.html">
+            
+                    
+                    （七）UDP
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >（二）TCP 报文结构</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="tcp-&#x62A5;&#x6587;&#x7ED3;&#x6784;">TCP &#x62A5;&#x6587;&#x7ED3;&#x6784;</h1>
+<p>TCP &#x662F;&#x9762;&#x5411;&#x5B57;&#x8282;&#x6D41;&#x7684;&#xFF0C;&#x4F46;&#x4F20;&#x9001;&#x7684;&#x6570;&#x636E;&#x5355;&#x5143;&#x5374;&#x662F;&#x62A5;&#x6587;&#x6BB5;&#x3002;</p>
+<p><strong>&#x4EC0;&#x4E48;&#x662F;&#x62A5;&#x6587;&#xFF1F;</strong><br>&#x4F8B;&#x5982;&#x4E00;&#x4E2A; 100kb &#x7684; HTML &#x6587;&#x6863;&#x9700;&#x8981;&#x4F20;&#x9001;&#x5230;&#x53E6;&#x5916;&#x4E00;&#x53F0;&#x8BA1;&#x7B97;&#x673A;&#xFF0C;&#x5E76;&#x4E0D;&#x4F1A;&#x6574;&#x4E2A;&#x6587;&#x6863;&#x76F4;&#x63A5;&#x4F20;&#x9001;&#x8FC7;&#x53BB;&#xFF0C;&#x53EF;&#x80FD;&#x4F1A;&#x5207;&#x5272;&#x6210;&#x51E0;&#x4E2A;&#x90E8;&#x5206;&#xFF0C;&#x6BD4;&#x5982;&#x56DB;&#x4E2A;&#x5206;&#x522B;&#x4E3A; 25kb &#x7684;&#x6570;&#x636E;&#x6BB5;&#x3002;<br>&#x800C;&#x6BCF;&#x4E2A;&#x6570;&#x636E;&#x6BB5;&#x518D;&#x52A0;&#x4E0A;&#x4E00;&#x4E2A; TCP &#x9996;&#x90E8;&#xFF0C;&#x5C31;&#x7EC4;&#x6210;&#x4E86; TCP &#x62A5;&#x6587;&#x3002;<br>&#x4E00;&#x5171;&#x56DB;&#x4E2A; TCP &#x62A5;&#x6587;&#xFF0C;&#x53D1;&#x9001;&#x5230;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x7AEF;&#x3002;<br>&#x53E6;&#x5916;&#x4E00;&#x7AEF;&#x6536;&#x5230;&#x6570;&#x636E;&#x5305;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x5254;&#x9664; TCP &#x9996;&#x90E8;&#xFF0C;&#x7EC4;&#x88C5;&#x8D77;&#x6765;&#x3002;<br>&#x7B49;&#x5230;&#x56DB;&#x4E2A;&#x6570;&#x636E;&#x5305;&#x90FD;&#x6536;&#x5230;&#x4E86;&#xFF0C;&#x5C31;&#x80FD;&#x8FD8;&#x539F;&#x51FA;&#x6765;&#x4E00;&#x4E2A;&#x5B8C;&#x6574;&#x7684; HTML &#x6587;&#x6863;&#x4E86;&#x3002;    </p>
+<p>&#x5728; OSI &#x7684;&#x4E03;&#x5C42;&#x534F;&#x8BAE;&#x4E2D;&#xFF0C;&#x7B2C;&#x4E8C;&#x5C42;&#xFF08;&#x6570;&#x636E;&#x94FE;&#x8DEF;&#x5C42;&#xFF09;&#x7684;&#x6570;&#x636E;&#x53EB;&#x300C;Frame&#x300D;&#xFF0C;&#x7B2C;&#x4E09;&#x5C42;&#xFF08;&#x7F51;&#x7EDC;&#x5C42;&#xFF09;&#x4E0A;&#x7684;&#x6570;&#x636E;&#x53EB;&#x300C;Packet&#x300D;&#xFF0C;&#x7B2C;&#x56DB;&#x5C42;&#xFF08;&#x4F20;&#x8F93;&#x5C42;&#xFF09;&#x7684;&#x6570;&#x636E;&#x53EB;&#x300C;Segment&#x300D;&#x3002;</p>
+<p>TCP &#x62A5;&#x6587; (Segment)&#xFF0C;&#x5305;&#x62EC;&#x9996;&#x90E8;&#x548C;&#x6570;&#x636E;&#x90E8;&#x5206;&#x3002;    </p>
+<p><img src="https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/3A60080FBC8767DB575C2D2919097613.png" alt="&#x62A5;&#x6587;&#x7ED3;&#x6784;.png"></p>
+<p>&#x800C; TCP &#x7684;&#x5168;&#x90E8;&#x529F;&#x80FD;&#x90FD;&#x4F53;&#x73B0;&#x5728;&#x5B83;&#x9996;&#x90E8;&#x4E2D;&#x5404;&#x5B57;&#x6BB5;&#x7684;&#x4F5C;&#x7528;&#xFF0C;&#x53EA;&#x6709;&#x5F04;&#x6E05; TCP &#x9996;&#x90E8;&#x5404;&#x5B57;&#x6BB5;&#x7684;&#x4F5C;&#x7528;&#x624D;&#x80FD;&#x638C;&#x63E1; TCP &#x7684;&#x5DE5;&#x4F5C;&#x539F;&#x7406;&#x3002;<br>TCP &#x62A5;&#x6587;&#x6BB5;&#x9996;&#x90E8;&#x7684;&#x524D;20&#x4E2A;&#x5B57;&#x8282;&#x662F;&#x56FA;&#x5B9A;&#x7684;&#xFF0C;&#x540E;&#x9762;&#x6709; 4N &#x5B57;&#x8282;&#x662F;&#x6839;&#x636E;&#x9700;&#x8981;&#x800C;&#x589E;&#x52A0;&#x7684;&#x3002;<br>&#x4E0B;&#x56FE;&#x662F;&#x628A; TCP &#x62A5;&#x6587;&#x4E2D;&#x7684;&#x9996;&#x90E8;&#x653E;&#x5927;&#x6765;&#x770B;&#x3002;    </p>
+<p><img src="https://bluesun-1252625244.cos.ap-guangzhou.myqcloud.com/post/understand-tcp-udp/CFC6314E4B2FD039C450821D946E93E2.png" alt="&#x62A5;&#x6587;&#x9996;&#x90E8;&#x7ED3;&#x6784;.png"></p>
+<p>TCP &#x7684;&#x9996;&#x90E8;&#x5305;&#x62EC;&#x4EE5;&#x4E0B;&#x5185;&#x5BB9;&#xFF1A;    </p>
+<ol>
+<li>&#x6E90;&#x7AEF;&#x53E3; source port    </li>
+<li>&#x76EE;&#x7684;&#x7AEF;&#x53E3; destination port    </li>
+<li>&#x5E8F;&#x53F7; sequence number    </li>
+<li>&#x786E;&#x8BA4;&#x53F7; acknowledgment number    </li>
+<li>&#x6570;&#x636E;&#x504F;&#x79FB; offset    </li>
+<li>&#x4FDD;&#x7559; reserved    </li>
+<li>&#x6807;&#x5FD7;&#x4F4D; tcp flags    </li>
+<li>&#x7A97;&#x53E3;&#x5927;&#x5C0F; window size    </li>
+<li>&#x68C0;&#x9A8C;&#x548C; checksum    </li>
+<li>&#x7D27;&#x6025;&#x6307;&#x9488; urgent pointer    </li>
+<li>&#x9009;&#x9879; tcp options    </li>
+</ol>
+<p>&#x4E0B;&#x9762;&#x5C55;&#x5F00;&#x6765;&#x63CF;&#x8FF0;&#x4E2A;&#x5B57;&#x6BB5;&#x7684;&#x610F;&#x4E49;&#x548C;&#x4F5C;&#x7528;&#x3002;    </p>
+<h2 id="tcp-&#x9996;&#x90E8;&#x5404;&#x5B57;&#x6BB5;&#x7684;&#x610F;&#x4E49;&#x548C;&#x4F5C;&#x7528;">TCP &#x9996;&#x90E8;&#x5404;&#x5B57;&#x6BB5;&#x7684;&#x610F;&#x4E49;&#x548C;&#x4F5C;&#x7528;</h2>
+<h3 id="&#x6E90;&#x7AEF;&#x53E3;&#x548C;&#x76EE;&#x7684;&#x7AEF;&#x53E3;-port">&#x6E90;&#x7AEF;&#x53E3;&#x548C;&#x76EE;&#x7684;&#x7AEF;&#x53E3; Port</h3>
+<p>&#x5404;&#x5360; 2 &#x4E2A; &#x5B57;&#x8282;&#xFF0C;&#x5171; 4 &#x4E2A;&#x5B57;&#x8282;&#x3002;<br>&#x7528;&#x6765;&#x544A;&#x77E5;&#x4E3B;&#x673A;&#x8BE5;&#x62A5;&#x6587;&#x6BB5;&#x662F;&#x6765;&#x81EA;&#x54EA;&#x91CC;&#x4EE5;&#x53CA;&#x4F20;&#x9001;&#x7ED9;&#x54EA;&#x4E2A;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF08;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x7ED1;&#x5B9A;&#x4E86;&#x7AEF;&#x53E3;&#xFF09;&#x7684;&#x3002;<br>&#x8FDB;&#x884C; TCP &#x901A;&#x8BAF;&#x65F6;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x901A;&#x5E38;&#x4F7F;&#x7528;&#x7CFB;&#x7EDF;&#x81EA;&#x52A8;&#x9009;&#x62E9;&#x7684;&#x4E34;&#x65F6;&#x7AEF;&#x53E3;&#x53F7;&#xFF0C;&#x800C;&#x670D;&#x52A1;&#x5668;&#x5219;&#x4F7F;&#x7528;&#x77E5;&#x540D;&#x670D;&#x52A1;&#x7AEF;&#x53E3;&#x53F7;&#x3002;    </p>
+<h3 id="&#x5E8F;&#x53F7;-sequence-number">&#x5E8F;&#x53F7; Sequence Number</h3>
+<p>&#x5360; 4 &#x4E2A;&#x5B57;&#x8282;&#x3002;<br>TCP &#x662F;&#x9762;&#x5411;&#x5B57;&#x8282;&#x6D41;&#x7684;&#xFF0C;&#x5728;&#x4E00;&#x4E2A; TCP &#x8FDE;&#x63A5;&#x4E2D;&#x4F20;&#x8F93;&#x7684;&#x5B57;&#x8282;&#x6D41;&#x4E2D;&#x7684;&#x6BCF;&#x4E2A;&#x5B57;&#x8282;&#x90FD;&#x6309;&#x7167;&#x987A;&#x5E8F;&#x7F16;&#x53F7;&#x3002;<br>&#x4F8B;&#x5982; 100 kb &#x7684; HTML &#x6587;&#x6863;&#x6570;&#x636E;&#xFF0C;&#x4E00;&#x5171; 102400 (100 * 1024) &#x4E2A;&#x5B57;&#x8282;&#xFF0C;&#x90A3;&#x4E48;&#x6BCF;&#x4E00;&#x4E2A;&#x5B57;&#x8282;&#x5C31;&#x90FD;&#x6709;&#x4E86;&#x7F16;&#x53F7;&#xFF0C;&#x6574;&#x4E2A;&#x6587;&#x6863;&#x7684;&#x7F16;&#x53F7;&#x7684;&#x8303;&#x56F4;&#x662F; 0 ~ 102399&#x3002;    </p>
+<p>&#x5E8F;&#x53F7;&#x5B57;&#x6BB5;&#x503C;&#x6307;&#x7684;&#x662F;<strong>&#x672C;&#x62A5;&#x6587;&#x6BB5;</strong>&#x6240;&#x53D1;&#x9001;&#x7684;&#x6570;&#x636E;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x5B57;&#x8282;&#x7684;&#x5E8F;&#x53F7;&#x3002;<br>&#x90A3;&#x4E48; 100 &#x7684; HTML &#x6587;&#x6863;&#x5206;&#x5272;&#x6210;&#x56DB;&#x4E2A;&#x7B49;&#x5206;&#x4E4B;&#x540E;&#xFF0C;<br>&#x7B2C;&#x4E00;&#x4E2A; TCP &#x62A5;&#x6587;&#x6BB5;&#x5305;&#x542B;&#x7684;&#x662F;&#x7B2C;&#x4E00;&#x4E2A; 25kb &#x7684;&#x6570;&#x636E;&#xFF0C;0 ~ 25599 &#x5B57;&#x8282;&#xFF0C; &#x8BE5;&#x62A5;&#x6587;&#x7684;&#x5E8F;&#x53F7;&#x7684;&#x503C;&#x5C31;&#x662F;&#xFF1A;0<br>&#x7B2C;&#x4E8C;&#x4E2A; TCP &#x62A5;&#x6587;&#x6BB5;&#x5305;&#x542B;&#x7684;&#x662F;&#x7B2C;&#x4E8C;&#x4E2A; 25kb &#x7684;&#x6570;&#x636E;&#xFF0C;25600 ~ 51199 &#x5B57;&#x8282;&#xFF0C;&#x8BE5;&#x62A5;&#x6587;&#x7684;&#x5E8F;&#x53F7;&#x7684;&#x503C;&#x5C31;&#x662F;&#xFF1A;25600<br>......    </p>
+<p>&#x6839;&#x636E; 8 &#x4F4D; = 1 &#x5B57;&#x8282;&#xFF0C;&#x90A3;&#x4E48; 4 &#x4E2A;&#x5B57;&#x8282;&#x53EF;&#x4EE5;&#x8868;&#x793A;&#x7684;&#x6570;&#x503C;&#x8303;&#x56F4;&#xFF1A;[0, 2^32]&#xFF0C;&#x4E00;&#x5171; 2^32 (4294967296) &#x4E2A;&#x5E8F;&#x53F7;&#x3002;<br>&#x5E8F;&#x53F7;&#x589E;&#x52A0;&#x5230;&#x6700;&#x5927;&#x503C;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4E0B;&#x4E00;&#x4E2A;&#x5E8F;&#x53F7;&#x53C8;&#x56DE;&#x5230;&#x4E86; 0.<br>&#x4E5F;&#x5C31;&#x662F;&#x8BF4; TCP &#x534F;&#x8BAE;&#x53EF;&#x5BF9; 4GB  &#x7684;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x7F16;&#x53F7;&#xFF0C;&#x5728;&#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;&#x53EF;&#x4FDD;&#x8BC1;&#x5F53;&#x5E8F;&#x53F7;&#x91CD;&#x590D;&#x4F7F;&#x7528;&#x65F6;&#xFF0C;&#x65E7;&#x5E8F;&#x53F7;&#x7684;&#x6570;&#x636E;&#x65E9;&#x5DF2;&#x7ECF;&#x901A;&#x8FC7;&#x7F51;&#x7EDC;&#x5230;&#x8FBE;&#x7EC8;&#x70B9;&#x6216;&#x8005;&#x4E22;&#x5931;&#x4E86;&#x3002;    </p>
+<h3 id="&#x786E;&#x8BA4;&#x53F7;-acknowledgemt-number">&#x786E;&#x8BA4;&#x53F7; Acknowledgemt Number</h3>
+<p>&#x5360; 4 &#x4E2A;&#x5B57;&#x8282;&#x3002;<br>&#x8868;&#x793A;<strong>&#x671F;&#x671B;&#x6536;&#x5230;&#x5BF9;&#x65B9;&#x4E0B;&#x4E00;&#x4E2A;&#x62A5;&#x6587;&#x6BB5;&#x7684;&#x5E8F;&#x53F7;&#x503C;</strong>&#x3002;<br>TCP &#x7684;&#x53EF;&#x9760;&#x6027;&#xFF0C;&#x662F;&#x5EFA;&#x7ACB;&#x5728;&#x300C;&#x6BCF;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x62A5;&#x6587;&#x90FD;&#x9700;&#x8981;&#x786E;&#x8BA4;&#x6536;&#x5230;&#x300D;&#x7684;&#x57FA;&#x7840;&#x4E4B;&#x4E0A;&#x7684;&#x3002;<br>&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x901A;&#x8BAF;&#x7684;&#x4EFB;&#x4F55;&#x4E00;&#x65B9;&#x5728;&#x6536;&#x5230;&#x5BF9;&#x65B9;&#x7684;&#x4E00;&#x4E2A;&#x62A5;&#x6587;&#x4E4B;&#x540E;&#xFF0C;&#x90FD;&#x8981;&#x53D1;&#x9001;&#x4E00;&#x4E2A;&#x76F8;&#x5BF9;&#x5E94;&#x7684;&#x300C;&#x786E;&#x8BA4;&#x62A5;&#x6587;&#x300D;&#xFF0C;&#x6765;&#x8868;&#x8FBE;&#x786E;&#x8BA4;&#x6536;&#x5230;&#x3002;<br><strong>&#x90A3;&#x4E48;&#xFF0C;&#x786E;&#x8BA4;&#x62A5;&#x6587;&#xFF0C;&#x5C31;&#x4F1A;&#x5305;&#x542B;&#x786E;&#x8BA4;&#x53F7;</strong>&#x3002;<br>&#x4F8B;&#x5982;&#xFF0C;&#x901A;&#x8BAF;&#x7684;&#x4E00;&#x65B9;&#x6536;&#x5230;&#x4E86;&#x7B2C;&#x4E00;&#x4E2A; 25kb &#x7684;&#x62A5;&#x6587;&#xFF0C;&#x8BE5;&#x62A5;&#x6587;&#x7684; &#x5E8F;&#x53F7;&#x503C;=0&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x9700;&#x8981;&#x56DE;&#x590D;&#x4E00;&#x4E2A;<strong>&#x786E;&#x8BA4;&#x62A5;&#x6587;</strong>&#xFF0C;&#x5176;&#x4E2D;&#x7684;&#x786E;&#x8BA4;&#x53F7; = 25600.    </p>
+<h3 id="&#x6570;&#x636E;&#x504F;&#x79FB;-offset">&#x6570;&#x636E;&#x504F;&#x79FB; Offset</h3>
+<p>&#x5360; 0.5 &#x4E2A;&#x5B57;&#x8282; (4 &#x4F4D;)&#x3002;<br>&#x8FD9;&#x4E2A;&#x5B57;&#x6BB5;&#x5B9E;&#x9645;&#x4E0A;&#x662F;&#x6307;&#x51FA;&#x4E86; <strong>TCP &#x62A5;&#x6587;&#x6BB5;&#x7684;&#x9996;&#x90E8;&#x957F;&#x5EA6;</strong> &#xFF0C;&#x5B83;&#x6307;&#x51FA;&#x4E86; TCP&#x62A5;&#x6587;&#x6BB5;&#x7684;&#x6570;&#x636E;&#x8D77;&#x59CB;&#x5904; &#x8DDD;&#x79BB; TCP&#x62A5;&#x6587;&#x7684;&#x8D77;&#x59CB;&#x5904; &#x6709;&#x591A;&#x8FDC;&#x3002;&#xFF08;&#x6CE8;&#x610F; &#x6570;&#x636E;&#x8D77;&#x59CB;&#x5904; &#x548C; &#x62A5;&#x6587;&#x8D77;&#x59CB;&#x5904; &#x7684;&#x610F;&#x601D;&#xFF09;    </p>
+<p>&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x504F;&#x79FB;&#x91CF; = 4 byte&#xFF0C;&#x7531;&#x4E8E; 4 &#x4F4D;&#x4E8C;&#x8FDB;&#x5236;&#x6570;&#x80FD;&#x8868;&#x793A;&#x7684;&#x6700;&#x5927;&#x5341;&#x8FDB;&#x5236;&#x6570;&#x5B57;&#x662F; 15&#xFF0C;&#x56E0;&#x6B64;&#x6570;&#x636E;&#x504F;&#x79FB;&#x7684;&#x6700;&#x5927;&#x503C;&#x662F; 60 byte&#xFF0C;&#x8FD9;&#x4E5F;&#x4FA7;&#x9762;&#x9650;&#x5236;&#x4E86; TCP &#x9996;&#x90E8;&#x7684;&#x6700;&#x5927;&#x957F;&#x5EA6;&#x3002;    </p>
+<h3 id="&#x4FDD;&#x7559;-reserved">&#x4FDD;&#x7559; Reserved</h3>
+<p>&#x5360; 0.75 &#x4E2A;&#x5B57;&#x8282; (6 &#x4F4D;)&#x3002;<br>&#x4FDD;&#x7559;&#x4E3A;&#x4ECA;&#x540E;&#x4F7F;&#x7528;&#xFF0C;&#x4F46;&#x76EE;&#x524D;&#x5E94;&#x7F6E;&#x4E3A; 0&#x3002;    </p>
+<h3 id="&#x6807;&#x5FD7;&#x4F4D;-tcp-flags">&#x6807;&#x5FD7;&#x4F4D; TCP Flags</h3>
+<p>&#x6807;&#x5FD7;&#x4F4D;&#xFF0C;&#x4E00;&#x5171;&#x6709; 6 &#x4E2A;&#xFF0C;&#x5206;&#x522B;&#x5360; 1 &#x4F4D;&#xFF0C;&#x5171; 6 &#x4F4D; &#x3002;<br>&#x6BCF;&#x4E00;&#x4F4D;&#x7684;&#x503C;&#x53EA;&#x6709; 0 &#x548C; 1&#xFF0C;&#x5206;&#x522B;&#x8868;&#x8FBE;&#x4E0D;&#x540C;&#x610F;&#x601D;&#x3002;    </p>
+<h4 id="&#x7D27;&#x6025;-urg-urgent">&#x7D27;&#x6025; URG (Urgent)</h4>
+<p>&#x5F53; URG = 1 &#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8868;&#x793A;&#x7D27;&#x6025;&#x6307;&#x9488;&#xFF08;Urgent Pointer&#xFF09;&#x6709;&#x6548;&#x3002;<br>&#x5B83;&#x544A;&#x8BC9;&#x7CFB;&#x7EDF;&#x6B64;&#x62A5;&#x6587;&#x6BB5;&#x4E2D;&#x6709;&#x7D27;&#x6025;&#x6570;&#x636E;&#xFF0C;&#x5E94;&#x5C3D;&#x5FEB;&#x4F20;&#x9001;&#xFF0C;&#x800C;&#x4E0D;&#x8981;&#x6309;&#x539F;&#x6765;&#x7684;&#x6392;&#x961F;&#x987A;&#x5E8F;&#x6765;&#x4F20;&#x9001;&#x3002;<br>URG &#x8981;&#x4E0E;&#x9996;&#x90E8;&#x4E2D;&#x7684; &#x7D27;&#x6025;&#x6307;&#x9488; &#x5B57;&#x6BB5;&#x914D;&#x5408;&#x4F7F;&#x7528;&#x3002;    </p>
+<h4 id="&#x786E;&#x8BA4;-ack-acknowlegemt">&#x786E;&#x8BA4; ACK (Acknowlegemt)</h4>
+<p>&#x5F53; ACK = 1 &#x7684;&#x65F6;&#x5019;&#xFF0C;&#x786E;&#x8BA4;&#x53F7;&#xFF08;Acknowledgemt Number&#xFF09;&#x6709;&#x6548;&#x3002;<br>&#x4E00;&#x822C;&#x79F0;&#x643A;&#x5E26; ACK &#x6807;&#x5FD7;&#x7684; TCP &#x62A5;&#x6587;&#x6BB5;&#x4E3A;&#x300C;&#x786E;&#x8BA4;&#x62A5;&#x6587;&#x6BB5;&#x300D;&#x3002;<br>TCP &#x89C4;&#x5B9A;&#xFF0C;&#x5728;&#x8FDE;&#x63A5;&#x5EFA;&#x7ACB;&#x540E;&#x6240;&#x6709;&#x4F20;&#x9001;&#x7684;&#x62A5;&#x6587;&#x6BB5;&#x90FD;&#x5FC5;&#x987B;&#x628A; ACK &#x8BBE;&#x7F6E;&#x4E3A; 1&#x3002;    </p>
+<h4 id="&#x63A8;&#x9001;-psh-push">&#x63A8;&#x9001; PSH (Push)</h4>
+<p>&#x5F53; PSH = 1 &#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8868;&#x793A;&#x8BE5;&#x62A5;&#x6587;&#x6BB5;&#x9AD8;&#x4F18;&#x5148;&#x7EA7;&#xFF0C;&#x63A5;&#x6536;&#x65B9; TCP &#x5E94;&#x8BE5;&#x5C3D;&#x5FEB;&#x63A8;&#x9001;&#x7ED9;&#x63A5;&#x6536;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#xFF0C;&#x800C;&#x4E0D;&#x7528;&#x7B49;&#x5230;&#x6574;&#x4E2A; TCP &#x7F13;&#x5B58;&#x90FD;&#x586B;&#x6EE1;&#x4E86;&#x540E;&#x518D;&#x4EA4;&#x4ED8;&#x3002;    </p>
+<h4 id="&#x590D;&#x4F4D;-rst-reset">&#x590D;&#x4F4D; RST (Reset)</h4>
+<p>&#x5F53; RST = 1 &#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8868;&#x793A; TCP &#x8FDE;&#x63A5;&#x4E2D;&#x51FA;&#x73B0;&#x4E25;&#x91CD;&#x9519;&#x8BEF;&#xFF0C;&#x9700;&#x8981;&#x91CA;&#x653E;&#x5E76;&#x91CD;&#x65B0;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;&#x3002;<br>&#x4E00;&#x822C;&#x79F0;&#x643A;&#x5E26; RST &#x6807;&#x5FD7;&#x7684; TCP &#x62A5;&#x6587;&#x6BB5;&#x4E3A;&#x300C;&#x590D;&#x4F4D;&#x62A5;&#x6587;&#x6BB5;&#x300D;&#x3002;    </p>
+<h4 id="&#x540C;&#x6B65;-syn-synchronization">&#x540C;&#x6B65; SYN (SYNchronization)</h4>
+<p>&#x5F53; SYN = 1 &#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8868;&#x660E;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x8FDE;&#x63A5;&#x62A5;&#x6587;&#x6BB5;&#x3002;<br>&#x4E00;&#x822C;&#x79F0;&#x643A;&#x5E26; SYN &#x6807;&#x5FD7;&#x7684; TCP &#x62A5;&#x6587;&#x6BB5;&#x4E3A;&#x300C;&#x540C;&#x6B65;&#x62A5;&#x6587;&#x6BB5;&#x300D;&#x3002;<br>&#x5728; TCP &#x4E09;&#x6B21;&#x63E1;&#x624B;&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x62A5;&#x6587;&#x5C31;&#x662F;&#x540C;&#x6B65;&#x62A5;&#x6587;&#x6BB5;&#xFF0C;&#x5728;&#x8FDE;&#x63A5;&#x5EFA;&#x7ACB;&#x65F6;&#x7528;&#x6765;&#x540C;&#x6B65;&#x5E8F;&#x53F7;&#x3002;<br>&#x5BF9;&#x65B9;&#x82E5;&#x540C;&#x610F;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;&#xFF0C;&#x5219;&#x5E94;&#x5728;&#x54CD;&#x5E94;&#x7684;&#x62A5;&#x6587;&#x6BB5;&#x4E2D;&#x4F7F; SYN = 1 &#x548C; ACK = 1&#x3002;    </p>
+<h4 id="&#x7EC8;&#x6B62;-fin-finis">&#x7EC8;&#x6B62; FIN (Finis)</h4>
+<p>&#x5F53; FIN = 1 &#x65F6;&#xFF0C;&#x8868;&#x793A;&#x6B64;&#x62A5;&#x6587;&#x6BB5;&#x7684;&#x53D1;&#x9001;&#x65B9;&#x7684;&#x6570;&#x636E;&#x5DF2;&#x7ECF;&#x53D1;&#x9001;&#x5B8C;&#x6BD5;&#xFF0C;&#x5E76;&#x8981;&#x6C42;&#x91CA;&#x653E; TCP &#x8FDE;&#x63A5;&#x3002;<br>&#x4E00;&#x822C;&#x79F0;&#x643A;&#x5E26; FIN &#x7684;&#x62A5;&#x6587;&#x6BB5;&#x4E3A;&#x300C;&#x7ED3;&#x675F;&#x62A5;&#x6587;&#x6BB5;&#x300D;&#x3002;<br>&#x5728; TCP &#x56DB;&#x6B21;&#x6325;&#x624B;&#x91CA;&#x653E;&#x8FDE;&#x63A5;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5C31;&#x4F1A;&#x7528;&#x5230;&#x8BE5;&#x6807;&#x5FD7;&#x3002;    </p>
+<h3 id="&#x7A97;&#x53E3;&#x5927;&#x5C0F;-window-size">&#x7A97;&#x53E3;&#x5927;&#x5C0F; Window Size</h3>
+<p>&#x5360; 2 &#x5B57;&#x8282;&#x3002;<br>&#x8BE5;&#x5B57;&#x6BB5;&#x660E;&#x786E;&#x6307;&#x51FA;&#x4E86;&#x73B0;&#x5728;&#x5141;&#x8BB8;&#x5BF9;&#x65B9;&#x53D1;&#x9001;&#x7684;&#x6570;&#x636E;&#x91CF;&#xFF0C;&#x5B83;&#x544A;&#x8BC9;&#x5BF9;&#x65B9;&#x672C;&#x7AEF;&#x7684; TCP &#x63A5;&#x6536;&#x7F13;&#x51B2;&#x533A;&#x8FD8;&#x80FD;&#x5BB9;&#x7EB3;&#x591A;&#x5C11;&#x5B57;&#x8282;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x8FD9;&#x6837;&#x5BF9;&#x65B9;&#x5C31;&#x53EF;&#x4EE5;&#x63A7;&#x5236;&#x53D1;&#x9001;&#x6570;&#x636E;&#x7684;&#x901F;&#x5EA6;&#x3002;<br>&#x7A97;&#x53E3;&#x5927;&#x5C0F;&#x7684;&#x503C;&#x662F;&#x6307;&#xFF0C;&#x4ECE;&#x672C;&#x62A5;&#x6587;&#x6BB5;&#x9996;&#x90E8;&#x4E2D;&#x7684;&#x786E;&#x8BA4;&#x53F7;&#x7B97;&#x8D77;&#xFF0C;&#x63A5;&#x6536;&#x65B9;&#x76EE;&#x524D;&#x5141;&#x8BB8;&#x5BF9;&#x65B9;&#x53D1;&#x9001;&#x7684;&#x6570;&#x636E;&#x91CF;&#x3002;<br>&#x4F8B;&#x5982;&#xFF0C;&#x5047;&#x5982;&#x786E;&#x8BA4;&#x53F7;&#x662F; 701 &#xFF0C;&#x7A97;&#x53E3;&#x5B57;&#x6BB5;&#x662F; 1000&#x3002;&#x8FD9;&#x5C31;&#x8868;&#x660E;&#xFF0C;&#x4ECE; 701 &#x53F7;&#x7B97;&#x8D77;&#xFF0C;&#x53D1;&#x9001;&#x6B64;&#x62A5;&#x6587;&#x6BB5;&#x7684;&#x4E00;&#x65B9;&#x8FD8;&#x6709;&#x63A5;&#x6536; 1000 &#xFF08;&#x5B57;&#x8282;&#x5E8F;&#x53F7;&#x662F; 701 ~ 1700&#xFF09; &#x4E2A;&#x5B57;&#x8282;&#x7684;&#x6570;&#x636E;&#x7684;&#x63A5;&#x6536;&#x7F13;&#x5B58;&#x7A7A;&#x95F4;&#x3002;    </p>
+<h3 id="&#x6821;&#x9A8C;&#x548C;-tcp-checksum">&#x6821;&#x9A8C;&#x548C; TCP Checksum</h3>
+<p>&#x5360; 2 &#x4E2A;&#x5B57;&#x8282;&#x3002;<br>&#x7531;&#x53D1;&#x9001;&#x7AEF;&#x586B;&#x5145;&#xFF0C;&#x63A5;&#x6536;&#x7AEF;&#x5BF9; TCP &#x62A5;&#x6587;&#x6BB5;&#x6267;&#x884C; CRC &#x7B97;&#x6CD5;&#xFF0C;&#x4EE5;&#x68C0;&#x9A8C; TCP &#x62A5;&#x6587;&#x6BB5;&#x5728;&#x4F20;&#x8F93;&#x8FC7;&#x7A0B;&#x4E2D;&#x662F;&#x5426;&#x635F;&#x574F;&#xFF0C;&#x5982;&#x679C;&#x635F;&#x574F;&#x8FD9;&#x4E22;&#x5F03;&#x3002;<br>&#x68C0;&#x9A8C;&#x8303;&#x56F4;&#x5305;&#x62EC;&#x9996;&#x90E8;&#x548C;&#x6570;&#x636E;&#x4E24;&#x90E8;&#x5206;&#xFF0C;&#x8FD9;&#x4E5F;&#x662F; TCP &#x53EF;&#x9760;&#x4F20;&#x8F93;&#x7684;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x4FDD;&#x969C;&#x3002;    </p>
+<h3 id="&#x7D27;&#x6025;&#x6307;&#x9488;-urgent-pointer">&#x7D27;&#x6025;&#x6307;&#x9488; Urgent Pointer</h3>
+<p>&#x5360; 2 &#x4E2A;&#x5B57;&#x8282;&#x3002;<br>&#x4EC5;&#x5728; URG = 1 &#x65F6;&#x624D;&#x6709;&#x610F;&#x4E49;&#xFF0C;&#x5B83;&#x6307;&#x51FA;&#x672C;&#x62A5;&#x6587;&#x6BB5;&#x4E2D;&#x7684;&#x7D27;&#x6025;&#x6570;&#x636E;&#x7684;&#x5B57;&#x8282;&#x6570;&#x3002;<br>&#x5F53; URG = 1 &#x65F6;&#xFF0C;&#x53D1;&#x9001;&#x65B9; TCP &#x5C31;&#x628A;&#x7D27;&#x6025;&#x6570;&#x636E;&#x63D2;&#x5165;&#x5230;&#x672C;&#x62A5;&#x6587;&#x6BB5;&#x6570;&#x636E;&#x7684;<strong>&#x6700;&#x524D;&#x9762;</strong>&#xFF0C;&#x800C;&#x5728;&#x7D27;&#x6025;&#x6570;&#x636E;&#x540E;&#x9762;&#x7684;&#x6570;&#x636E;&#x4ECD;&#x662F;&#x666E;&#x901A;&#x6570;&#x636E;&#x3002;<br>&#x56E0;&#x6B64;&#xFF0C;&#x7D27;&#x6025;&#x6307;&#x9488;&#x6307;&#x51FA;&#x4E86;&#x7D27;&#x6025;&#x6570;&#x636E;&#x7684;&#x672B;&#x5C3E;&#x5728;&#x62A5;&#x6587;&#x6BB5;&#x4E2D;&#x7684;&#x4F4D;&#x7F6E;&#x3002;    </p>
+<h1 id="&#x53C2;&#x8003;">&#x53C2;&#x8003;</h1>
+<p><a href="https://book.douban.com/subject/26850616/" target="_blank">&#x300A;&#x540E;&#x53F0;&#x5F00;&#x53D1; &#x6838;&#x5FC3;&#x6280;&#x672F;&#x4E0E;&#x5E94;&#x7528;&#x5B9E;&#x8DF5;&#x300B;</a><br><a href="https://book.douban.com/subject/2970300/" target="_blank">&#x300A;&#x8BA1;&#x7B97;&#x673A;&#x7F51;&#x7EDC;&#x300B;</a></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="chapter1.html" class="navigation navigation-prev " aria-label="Previous page: （一）TCP 端口">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="chapter3.html" class="navigation navigation-next " aria-label="Next page: （三）TCP 连接的建立和释放">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"（二）TCP 报文结构","level":"1.3","depth":1,"next":{"title":"（三）TCP 连接的建立和释放","level":"1.4","depth":1,"path":"chapter3.md","ref":"chapter3.md","articles":[]},"previous":{"title":"（一）TCP 端口","level":"1.2","depth":1,"path":"chapter1.md","ref":"chapter1.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"chapter2.md","mtime":"2021-04-02T15:57:50.920Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-04-02T16:01:33.607Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
